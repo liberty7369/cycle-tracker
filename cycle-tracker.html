@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 Fast Like a Girl — Cycle & Fat-Loss Tracker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+  :root {
+    --rose: #e8647a;
+    --rose-light: #fce8ec;
+    --rose-mid: #f5b8c4;
+    --rose-dark: #c04060;
+    --plum: #7c4d8a;
+    --plum-light: #f0e6f4;
+    --plum-mid: #c9a4d8;
+    --gold: #d4923a;
+    --gold-light: #fdf3e3;
+    --gold-mid: #f5cc8a;
+    --teal: #3a9e8f;
+    --teal-light: #e3f5f2;
+    --teal-mid: #8ed4ca;
+    --sage: #6a9e6a;
+    --sage-light: #eaf2ea;
+    --ink: #2a2030;
+    --ink-mid: #4a3d52;
+    --muted: #8a7d92;
+    --surface: #faf8fb;
+    --surface2: #f2eef5;
+    --border: #e0d8e8;
+    --white: #ffffff;
+
+    --p1-bg: #fce8ec; --p1-accent: #e8647a; --p1-text: #7a1a30;
+    --mf-bg: #fdf3e3; --mf-accent: #d4923a; --mf-text: #7a4a10;
+    --p2-bg: #f0e6f4; --p2-accent: #7c4d8a; --p2-text: #3d1a50;
+    --nu-bg: #eaf2ea; --nu-accent: #6a9e6a; --nu-text: #1a4a1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 15px;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .hero {
+    background: linear-gradient(135deg, #fce8ec 0%, #f0e6f4 40%, #fdf3e3 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(232,100,122,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(124,77,138,0.08) 0%, transparent 60%);
+  }
+  .hero-inner { position: relative; max-width: 700px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-block;
+    background: var(--rose-light);
+    color: var(--rose-dark);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--rose-mid);
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+  h1 span { color: var(--rose); }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+  }
+  .disclaimer {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--rose-mid);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 12.5px;
+    color: var(--ink-mid);
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .disclaimer strong { color: var(--rose-dark); }
+
+  /* LAYOUT */
+  .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* SETUP CARD */
+  .setup-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(42,32,48,0.06);
+  }
+  .setup-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .setup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .field-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .field-group input, .field-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .field-group input:focus, .field-group select:focus {
+    border-color: var(--rose);
+    background: var(--white);
+  }
+  .btn-generate {
+    background: var(--rose);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-generate:hover { background: var(--rose-dark); transform: translateY(-1px); }
+  .btn-generate:active { transform: translateY(0); }
+
+  .btn-export {
+    background: var(--white);
+    color: var(--ink-mid);
+    border: 1.5px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+  }
+  .btn-export:hover { border-color: var(--plum); color: var(--plum); background: var(--plum-light); }
+
+  /* PHASE LEGEND */
+  .phase-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .phase-card {
+    border-radius: 14px;
+    padding: 1.25rem 1.25rem 1rem;
+    border: 1px solid transparent;
+  }
+  .phase-card.p1 { background: var(--p1-bg); border-color: var(--rose-mid); }
+  .phase-card.mf { background: var(--mf-bg); border-color: var(--gold-mid); }
+  .phase-card.p2 { background: var(--p2-bg); border-color: var(--plum-mid); }
+  .phase-card.nu { background: var(--nu-bg); border-color: var(--teal-mid); }
+  .phase-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .phase-card.p1 h3 { color: var(--p1-text); }
+  .phase-card.mf h3 { color: var(--mf-text); }
+  .phase-card.p2 h3 { color: var(--p2-text); }
+  .phase-card.nu h3 { color: var(--nu-text); }
+  .phase-card p { font-size: 12.5px; color: var(--ink-mid); margin-bottom: 0.4rem; }
+  .phase-pill {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 10px;
+    border-radius: 100px;
+    margin-right: 4px;
+    margin-top: 4px;
+  }
+  .p1 .phase-pill { background: var(--rose); color: white; }
+  .mf .phase-pill { background: var(--gold); color: white; }
+  .p2 .phase-pill { background: var(--plum); color: white; }
+  .nu .phase-pill { background: var(--sage); color: white; }
+
+  /* TODAY DASHBOARD */
+  .today-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 12px rgba(42,32,48,0.06);
+  }
+  .today-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .today-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+  .today-stat {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border);
+  }
+  .today-stat .ts-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .today-stat .ts-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .today-stat .ts-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  #today-phase-banner {
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    font-size: 14px;
+    display: none;
+  }
+
+  /* CALENDAR */
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .cycle-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(42,32,48,0.04);
+  }
+  .cycle-header {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .cycle-header:hover { background: var(--surface2); }
+  .cycle-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--ink);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cycle-header .cycle-range {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .chevron { font-size: 14px; color: var(--muted); transition: transform 0.2s; }
+  .cycle-body { overflow: hidden; }
+
+  /* DAY TABLE */
+  .day-table-wrap { overflow-x: auto; }
+  .day-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 900px;
+  }
+  .day-table thead th {
+    background: var(--surface2);
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+  }
+  .day-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  .day-table tbody tr:last-child { border-bottom: none; }
+  .day-table tbody tr:hover { background: rgba(232,100,122,0.03); }
+  .day-table td {
+    padding: 9px 12px;
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  .day-num {
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+    font-size: 13px;
+  }
+  .day-date {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .phase-tag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .tag-p1 { background: var(--p1-bg); color: var(--p1-text); border: 1px solid var(--rose-mid); }
+  .tag-mf { background: var(--mf-bg); color: var(--mf-text); border: 1px solid var(--gold-mid); }
+  .tag-p2 { background: var(--p2-bg); color: var(--p2-text); border: 1px solid var(--plum-mid); }
+  .tag-nu { background: var(--nu-bg); color: var(--nu-text); border: 1px solid var(--teal-mid); }
+  .fertility-tag {
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 4px;
+  }
+
+  /* Row colors */
+  .row-p1 { background: rgba(252,232,236,0.3); }
+  .row-mf { background: rgba(253,243,227,0.3); }
+  .row-p2 { background: rgba(240,230,244,0.3); }
+  .row-nu { background: rgba(234,242,234,0.3); }
+  .row-today {
+    outline: 2px solid var(--rose) !important;
+    outline-offset: -2px;
+    position: relative;
+  }
+  .today-marker {
+    display: inline-block;
+    background: var(--rose);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 100px;
+    margin-left: 6px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* TRACKING LOG */
+  .tracking-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 6px rgba(42,32,48,0.04);
+  }
+  .tracking-section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .track-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.25rem; }
+  .track-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .track-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .track-field input, .track-field select, .track-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    color: var(--ink);
+    background: var(--surface);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .track-field input:focus, .track-field select:focus, .track-field textarea:focus {
+    border-color: var(--rose);
+    background: var(--white);
+  }
+  .log-table-wrap { overflow-x: auto; margin-top: 1.5rem; }
+  .log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 700px;
+  }
+  .log-table th {
+    background: var(--surface2);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .log-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-mid);
+  }
+  .log-table tr:last-child td { border-bottom: none; }
+  .log-table tr:hover td { background: var(--surface2); }
+  .btn-log {
+    background: var(--teal-light);
+    color: var(--teal);
+    border: 1.5px solid var(--teal-mid);
+    padding: 9px 20px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-log:hover { background: var(--teal); color: white; border-color: var(--teal); }
+
+  /* PHASE SUMMARY TABLE */
+  .phase-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .phase-summary-table th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-summary-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .phase-summary-table tr:last-child td { border-bottom: none; }
+  .pst-p1 td:first-child { border-left: 3px solid var(--rose); }
+  .pst-mf td:first-child { border-left: 3px solid var(--gold); }
+  .pst-p2 td:first-child { border-left: 3px solid var(--plum); }
+  .pst-nu td:first-child { border-left: 3px solid var(--sage); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12.5px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    line-height: 1.8;
+  }
+  .footer a { color: var(--rose); text-decoration: none; }
+
+  /* NO DATA */
+  .no-data {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .no-data .emoji { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+  /* UTIL */
+  .hidden { display: none !important; }
+  .text-muted { color: var(--muted); }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .small-list { font-size: 12.5px; color: var(--ink-mid); }
+  .small-list span { display: block; }
+
+  @media (max-width: 640px) {
+    .main { padding: 1rem 1rem 3rem; }
+    .hero { padding: 1.5rem 1rem 1.25rem; }
+    .setup-grid { grid-template-columns: 1fr 1fr; }
+    .today-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🌸 Inspired by Dr. Mindy Pelz · Fast Like a Girl</div>
+    <h1>Your Cycle is Your <span>Superpower</span></h1>
+    <p class="hero-sub">Made by <strong>Liberty Copula</strong> — for every female learning to work <em>with</em> her body, not against it. A free, offline-ready tracker for hormonal fasting, fat-loss, and cycle syncing.</p>
+    <div class="disclaimer">
+      <strong>⚠️ Educational Only:</strong> This tracker is not medical advice. Consult a healthcare professional before changing diet, fasting, or exercise habits. Inspired by Dr. Mindy Pelz's <em>Fast Like a Girl</em> — not affiliated with or endorsed by Dr. Pelz.
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SETUP -->
+  <div class="setup-card">
+    <h2>⚙️ Your Personal Settings</h2>
+    <div class="setup-grid">
+      <div class="field-group">
+        <label>📅 Day 1 of Your Period</label>
+        <input type="date" id="day1" />
+      </div>
+      <div class="field-group">
+        <label>🔄 Cycle Length (days)</label>
+        <input type="number" id="cycleLen" value="28" min="25" max="35" />
+      </div>
+      <div class="field-group">
+        <label>📆 Cycles to Generate</label>
+        <select id="numCycles">
+          <option value="6">6 cycles (~6 months)</option>
+          <option value="8" selected>8 cycles (~8 months)</option>
+          <option value="10">10 cycles (~10 months)</option>
+          <option value="12">12 cycles (~12 months)</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-generate" onclick="generate()">
+      🌺 Generate My Tracker
+    </button>
+    <button class="btn-export" onclick="exportCSV()">
+      📥 Export CSV
+    </button>
+    <button class="btn-export" onclick="exportICS()">
+      📆 Export Calendar (.ics)
+    </button>
+  </div>
+
+  <!-- PHASE LEGEND -->
+  <div id="phase-legend" class="hidden">
+    <div class="section-title">🌿 Your Cycle Phases</div>
+    <div class="phase-legend" id="phase-cards"></div>
+  </div>
+
+  <!-- PHASE SUMMARY TABLE -->
+  <div id="phase-summary-section" class="hidden" style="margin-bottom:2rem;">
+    <div class="section-title">📋 Phase Protocol Reference</div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;overflow-x:auto;">
+      <table class="phase-summary-table">
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Hormones</th>
+            <th>Fasting Style ⏱️</th>
+            <th>Nutrition Focus 🥗</th>
+            <th>Workout Style 🏋️</th>
+            <th>Fat-Loss Notes 🔥</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pst-p1">
+            <td><strong style="color:var(--rose);">🌹 Power Phase 1</strong><br><span style="font-size:12px;color:var(--muted);">Menstrual + early follicular</span></td>
+            <td>Estrogen rising slowly, progesterone low</td>
+            <td>13–15 hr intermittent fast. Gentle intro. Break fast with protein + fat.</td>
+            <td>High protein, complex carbs, iron-rich foods. Warm, nourishing meals.</td>
+            <td>Low–moderate: yoga, walks, light strength. Listen to body.</td>
+            <td>Estrogen rising = good insulin sensitivity. Shorter fasts rebuild tolerance. 🌱</td>
+          </tr>
+          <tr class="pst-mf">
+            <td><strong style="color:var(--gold);">☀️ Manifestation</strong><br><span style="font-size:12px;color:var(--muted);">Late follicular → ovulation</span></td>
+            <td>Estrogen peaks, LH surge, testosterone peaks</td>
+            <td>15–17 hr fasts. OMAD optional. Peak fat-burning window. ✨</td>
+            <td>Lean proteins, veggies, healthy fats. Low sugar. High energy meals.</td>
+            <td>Peak intensity: HIIT, heavy lifting, sprints. Your strongest days!</td>
+            <td>Highest fat oxidation. Fasted workouts shine here. Push hard! 🔥</td>
+          </tr>
+          <tr class="pst-p2">
+            <td><strong style="color:var(--plum);">💜 Power Phase 2</strong><br><span style="font-size:12px;color:var(--muted);">Early–mid luteal</span></td>
+            <td>Progesterone rises, estrogen moderate</td>
+            <td>13–15 hr fasts. Progesterone raises metabolism — don't over-restrict.</td>
+            <td>Add healthy carbs (sweet potato, quinoa). Progesterone needs fuel.</td>
+            <td>Moderate strength, pilates, hiking. Slower recovery needed.</td>
+            <td>Higher BMR = natural fat burning. Honor hunger. 🌙</td>
+          </tr>
+          <tr class="pst-nu">
+            <td><strong style="color:var(--sage);">🍀 Nurture</strong><br><span style="font-size:12px;color:var(--muted);">Late luteal → pre-menstrual</span></td>
+            <td>Progesterone + estrogen falling, cortisol sensitive</td>
+            <td>12–13 hr only. No extended fasts. Blood sugar stability crucial.</td>
+            <td>Complex carbs, magnesium-rich foods, dark chocolate OK. Comfort foods.</td>
+            <td>Gentle: walking, yin yoga, stretching. Rest is productive.</td>
+            <td>Low fasting reduces cortisol stress. Nourish to prepare for next cycle. 🌿</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TODAY DASHBOARD -->
+  <div id="today-section" class="today-card hidden">
+    <h2>🌟 Today's Dashboard</h2>
+    <div id="today-phase-banner"></div>
+    <div class="today-grid" id="today-stats"></div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div id="calendar-section" class="hidden">
+    <div class="section-title">📅 Your Multi-Cycle Calendar</div>
+    <div id="calendar-output"></div>
+  </div>
+
+  <!-- TRACKING LOG -->
+  <div id="tracking-section" class="tracking-section hidden">
+    <h2>📊 Daily Tracking Log</h2>
+    <p class="track-sub">Log how you feel each day. Your entries are saved in this session.</p>
+    <div class="track-grid">
+      <div class="track-field">
+        <label>📅 Date</label>
+        <input type="date" id="log-date" />
+      </div>
+      <div class="track-field">
+        <label>⚖️ Weight (kg/lbs)</label>
+        <input type="text" id="log-weight" placeholder="e.g. 65 kg" />
+      </div>
+      <div class="track-field">
+        <label>😊 Mood (1–10)</label>
+        <input type="number" id="log-mood" min="1" max="10" placeholder="7" />
+      </div>
+      <div class="track-field">
+        <label>⚡ Energy (1–10)</label>
+        <input type="number" id="log-energy" min="1" max="10" placeholder="8" />
+      </div>
+      <div class="track-field">
+        <label>😴 Sleep (hrs)</label>
+        <input type="number" id="log-sleep" min="0" max="12" step="0.5" placeholder="7.5" />
+      </div>
+      <div class="track-field">
+        <label>🍽️ Hunger (1–10)</label>
+        <input type="number" id="log-hunger" min="1" max="10" placeholder="4" />
+      </div>
+      <div class="track-field">
+        <label>⏱️ Fasted Hours</label>
+        <input type="number" id="log-fasted" min="0" max="24" step="0.5" placeholder="16" />
+      </div>
+      <div class="track-field">
+        <label>🏃 Workout Done?</label>
+        <select id="log-workout">
+          <option value="">—</option>
+          <option>Yes ✅</option>
+          <option>Rest day 🛌</option>
+          <option>Light walk 🚶</option>
+          <option>Skipped ❌</option>
+        </select>
+      </div>
+    </div>
+    <div class="track-grid" style="grid-template-columns: 1fr;">
+      <div class="track-field">
+        <label>📝 Symptoms / Notes</label>
+        <textarea id="log-notes" rows="2" placeholder="e.g. cramps, bloating, great energy, PMS cravings..."></textarea>
+      </div>
+    </div>
+    <button class="btn-log" onclick="addLogEntry()">
+      ➕ Save Entry
+    </button>
+    <div id="log-table-wrap" class="log-table-wrap hidden">
+      <div class="section-title" style="margin-top:1.5rem;font-size:1.1rem;">Your Log</div>
+      <table class="log-table" id="log-table">
+        <thead>
+          <tr>
+            <th>Date</th><th>Weight</th><th>Mood</th><th>Energy</th>
+            <th>Sleep</th><th>Hunger</th><th>Fasted hrs</th>
+            <th>Workout</th><th>Notes</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="log-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DEFAULT STATE -->
+  <div id="empty-state" class="no-data">
+    <span class="emoji">🌸</span>
+    Enter your Day 1 date, cycle length, and number of cycles above —<br>then hit <strong>Generate My Tracker</strong> to build your personal calendar.
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  🌸 Made by <strong>Liberty Copula</strong> — for every female learning to work <em>with</em> her cycle, not against it.<br>
+  Inspired by <em>Fast Like a Girl</em> by Dr. Mindy Pelz · Not affiliated with or endorsed by Dr. Pelz.<br>
+  <strong>Not medical advice.</strong> Always consult your healthcare provider. · Fully offline — no data leaves your device.
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────
+const PHASES = {
+  p1: {
+    id: 'p1', name: 'Power Phase 1', emoji: '🌹',
+    tagClass: 'tag-p1', rowClass: 'row-p1',
+    hormones: 'Estrogen rising, progesterone low',
+    fasting: '13–15 hr intermittent fast',
+    fastingDetail: 'Break fast with protein + fat. Ease in gently.',
+    eatMore: 'Iron-rich foods, protein, complex carbs, warm soups',
+    avoid: 'Alcohol, high sugar, raw cold foods',
+    meals: 'Lentil soup, salmon + sweet potato, eggs + spinach, bone broth',
+    workout: 'Light yoga, gentle walks, restorative movement',
+    workoutIntensity: 'Low–moderate 🧘',
+    fatLoss: 'Estrogen rising = improving insulin sensitivity 🌱',
+    color: '#e8647a'
+  },
+  mf: {
+    id: 'mf', name: 'Manifestation', emoji: '☀️',
+    tagClass: 'tag-mf', rowClass: 'row-mf',
+    hormones: 'Estrogen peaks, LH surge, testosterone rises',
+    fasting: '15–17 hr fasts, OMAD possible',
+    fastingDetail: 'Peak fat-burning window! Fasted workouts here.',
+    eatMore: 'Lean protein, cruciferous veggies, healthy fats, fermented foods',
+    avoid: 'Excess sugar, processed carbs, alcohol',
+    meals: 'Grilled chicken salad, zucchini noodles, avocado bowls, sashimi',
+    workout: 'HIIT, heavy lifting, sprints, peak performance',
+    workoutIntensity: 'High intensity 🏋️',
+    fatLoss: 'Highest fat oxidation window — push hard! 🔥',
+    color: '#d4923a'
+  },
+  p2: {
+    id: 'p2', name: 'Power Phase 2', emoji: '💜',
+    tagClass: 'tag-p2', rowClass: 'row-p2',
+    hormones: 'Progesterone rises, estrogen moderate',
+    fasting: '13–15 hr fasts (progesterone raises metabolism)',
+    fastingDetail: 'Don\'t over-restrict — progesterone needs fuel.',
+    eatMore: 'Complex carbs, healthy fats, progesterone-supporting foods',
+    avoid: 'Long extended fasts, over-training, excess caffeine',
+    meals: 'Sweet potato + turkey, quinoa bowls, roasted veggies, nut butter',
+    workout: 'Moderate strength, pilates, hiking, cycling',
+    workoutIntensity: 'Moderate 🚴',
+    fatLoss: 'Higher basal metabolic rate = natural fat burning 🌙',
+    color: '#7c4d8a'
+  },
+  nu: {
+    id: 'nu', name: 'Nurture', emoji: '🍀',
+    tagClass: 'tag-nu', rowClass: 'row-nu',
+    hormones: 'Progesterone + estrogen falling, cortisol-sensitive',
+    fasting: '12–13 hr only — no extended fasts',
+    fastingDetail: 'Blood sugar stability is key. Eat regularly.',
+    eatMore: 'Magnesium-rich foods, complex carbs, comfort foods, dark chocolate',
+    avoid: 'Extended fasting, intense cardio, alcohol, high sugar',
+    meals: 'Roasted root veggies, hearty stews, dark chocolate, oats with banana',
+    workout: 'Gentle walks, yin yoga, stretching, rest',
+    workoutIntensity: 'Gentle 🧘',
+    fatLoss: 'Low fasting reduces cortisol. Nourish to set up next cycle 🌿',
+    color: '#6a9e6a'
+  }
+};
+
+// ─── STATE ───────────────────────────────────────────────────────
+let cycles = [];
+let logEntries = [];
+let allDays = [];
+let exportData = [];
+
+// ─── DATE HELPERS ────────────────────────────────────────────────
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+function fmtDate(d) {
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function fmtDateShort(d) {
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+function fmtDateISO(d) {
+  return d.toISOString().split('T')[0];
+}
+function isToday(d) {
+  const t = new Date();
+  return d.getFullYear() === t.getFullYear() &&
+         d.getMonth() === t.getMonth() &&
+         d.getDate() === t.getDate();
+}
+
+// ─── PHASE CALC ──────────────────────────────────────────────────
+function calcPhases(cycleLen) {
+  const p1 = Math.round(cycleLen * 0.37);
+  const mf = Math.round(cycleLen * 0.17);
+  const p2 = Math.round(cycleLen * 0.15);
+  const nu = cycleLen - p1 - mf - p2;
+  return { p1, mf, p2, nu };
+}
+
+function getPhaseForDay(cycleDay, phases) {
+  if (cycleDay <= phases.p1) return 'p1';
+  if (cycleDay <= phases.p1 + phases.mf) return 'mf';
+  if (cycleDay <= phases.p1 + phases.mf + phases.p2) return 'p2';
+  return 'nu';
+}
+
+// ─── GENERATE ────────────────────────────────────────────────────
+function generate() {
+  const d1Input = document.getElementById('day1').value;
+  const cycleLen = parseInt(document.getElementById('cycleLen').value);
+  const numCycles = parseInt(document.getElementById('numCycles').value);
+
+  if (!d1Input) {
+    alert('Please enter your Day 1 date!');
+    return;
+  }
+  if (cycleLen < 25 || cycleLen > 35) {
+    alert('Cycle length should be between 25 and 35 days.');
+    return;
+  }
+
+  const day1 = new Date(d1Input + 'T00:00:00');
+  const phases = calcPhases(cycleLen);
+  const ovDay = cycleLen - 14;
+  const fertStart = ovDay - 5;
+  const fertEnd = ovDay + 1;
+
+  cycles = [];
+  allDays = [];
+  exportData = [];
+
+  let startDate = new Date(day1);
+
+  for (let c = 0; c < numCycles; c++) {
+    const cycleStart = new Date(startDate);
+    const cycleEnd = addDays(startDate, cycleLen - 1);
+    const daysList = [];
+
+    for (let d = 1; d <= cycleLen; d++) {
+      const date = addDays(startDate, d - 1);
+      const phaseKey = getPhaseForDay(d, phases);
+      const phase = PHASES[phaseKey];
+      const isFertile = d >= fertStart && d <= fertEnd;
+      const isOvulation = d === ovDay;
+
+      const fertility = isOvulation
+        ? '🌺 Ovulation'
+        : isFertile
+          ? '🌸 Fertile'
+          : '';
+
+      const dayObj = {
+        cycleNum: c + 1, cycleDay: d, date,
+        phaseKey, phase, isFertile, isOvulation, fertility,
+        isToday: isToday(date)
+      };
+      daysList.push(dayObj);
+      allDays.push(dayObj);
+
+      exportData.push({
+        date: fmtDateISO(date),
+        cycleNum: c + 1, cycleDay: d,
+        phase: phase.name,
+        hormones: phase.hormones,
+        fasting: phase.fasting,
+        eatMore: phase.eatMore,
+        avoid: phase.avoid,
+        meals: phase.meals,
+        workout: phase.workout,
+        fertility
+      });
+    }
+
+    cycles.push({
+      num: c + 1, startDate: cycleStart, endDate: cycleEnd,
+      phases, ovDay, fertStart, fertEnd, days: daysList
+    });
+
+    startDate = addDays(startDate, cycleLen);
+  }
+
+  renderAll(phases, cycleLen, ovDay);
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────
+function renderAll(phases, cycleLen, ovDay) {
+  document.getElementById('empty-state').classList.add('hidden');
+  renderPhaseLegend(phases, cycleLen, ovDay);
+  renderPhaseSummary();
+  renderTodayDashboard();
+  renderCalendar();
+  document.getElementById('tracking-section').classList.remove('hidden');
+  document.getElementById('phase-legend').classList.remove('hidden');
+  document.getElementById('phase-summary-section').classList.remove('hidden');
+  document.getElementById('today-section').classList.remove('hidden');
+  document.getElementById('calendar-section').classList.remove('hidden');
+}
+
+function renderPhaseLegend(phases, cycleLen, ovDay) {
+  const fertStart = ovDay - 5;
+  const fertEnd = ovDay + 1;
+  document.getElementById('phase-cards').innerHTML = `
+    <div class="phase-card p1">
+      <h3>${PHASES.p1.emoji} Power Phase 1</h3>
+      <p><strong>Days 1–${phases.p1}</strong> · ${phases.p1} days</p>
+      <p>${PHASES.p1.hormones}</p>
+      <div class="pill-row">
+        <span class="phase-pill">⏱️ ${PHASES.p1.fasting}</span>
+        <span class="phase-pill">🏃 ${PHASES.p1.workoutIntensity}</span>
+      </div>
+    </div>
+    <div class="phase-card mf">
+      <h3>${PHASES.mf.emoji} Manifestation</h3>
+      <p><strong>Days ${phases.p1+1}–${phases.p1+phases.mf}</strong> · ${phases.mf} days</p>
+      <p>${PHASES.mf.hormones}</p>
+      <div class="pill-row">
+        <span class="phase-pill">⏱️ ${PHASES.mf.fasting}</span>
+        <span class="phase-pill">🏃 ${PHASES.mf.workoutIntensity}</span>
+      </div>
+    </div>
+    <div class="phase-card p2">
+      <h3>${PHASES.p2.emoji} Power Phase 2</h3>
+      <p><strong>Days ${phases.p1+phases.mf+1}–${phases.p1+phases.mf+phases.p2}</strong> · ${phases.p2} days</p>
+      <p>${PHASES.p2.hormones}</p>
+      <div class="pill-row">
+        <span class="phase-pill">⏱️ ${PHASES.p2.fasting}</span>
+        <span class="phase-pill">🏃 ${PHASES.p2.workoutIntensity}</span>
+      </div>
+    </div>
+    <div class="phase-card nu">
+      <h3>${PHASES.nu.emoji} Nurture</h3>
+      <p><strong>Days ${phases.p1+phases.mf+phases.p2+1}–${cycleLen}</strong> · ${phases.nu} days</p>
+      <p>${PHASES.nu.hormones}</p>
+      <div class="pill-row">
+        <span class="phase-pill">⏱️ ${PHASES.nu.fasting}</span>
+        <span class="phase-pill">🏃 ${PHASES.nu.workoutIntensity}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderPhaseSummary() {
+  // already static HTML, just show it
+}
+
+function renderTodayDashboard() {
+  const todayDay = allDays.find(d => d.isToday);
+  const banner = document.getElementById('today-phase-banner');
+  const statsEl = document.getElementById('today-stats');
+
+  if (!todayDay) {
+    banner.style.display = 'block';
+    banner.style.background = 'var(--surface2)';
+    banner.style.border = '1px solid var(--border)';
+    banner.style.color = 'var(--muted)';
+    banner.innerHTML = 'Today is not within the generated cycle range.';
+    statsEl.innerHTML = '';
+    return;
+  }
+
+  const p = todayDay.phase;
+  const bgMap = { p1: 'var(--p1-bg)', mf: 'var(--mf-bg)', p2: 'var(--p2-bg)', nu: 'var(--nu-bg)' };
+  const borderMap = { p1: 'var(--rose-mid)', mf: 'var(--gold-mid)', p2: 'var(--plum-mid)', nu: 'var(--teal-mid)' };
+  const textMap = { p1: 'var(--p1-text)', mf: 'var(--mf-text)', p2: 'var(--p2-text)', nu: 'var(--nu-text)' };
+
+  banner.style.display = 'block';
+  banner.style.background = bgMap[todayDay.phaseKey];
+  banner.style.border = '1px solid ' + borderMap[todayDay.phaseKey];
+  banner.style.color = textMap[todayDay.phaseKey];
+  banner.innerHTML = `<strong>${p.emoji} Today is ${p.name} — Cycle Day ${todayDay.cycleDay} (Cycle #${todayDay.cycleNum})</strong><br>
+    ${p.fatLoss}`;
+
+  statsEl.innerHTML = `
+    <div class="today-stat">
+      <div class="ts-label">Cycle Day</div>
+      <div class="ts-value">${todayDay.cycleDay}</div>
+      <div class="ts-sub">Cycle #${todayDay.cycleNum}</div>
+    </div>
+    <div class="today-stat">
+      <div class="ts-label">Phase</div>
+      <div class="ts-value">${p.emoji} ${p.name}</div>
+    </div>
+    <div class="today-stat">
+      <div class="ts-label">⏱️ Fasting Window</div>
+      <div class="ts-value">${p.fasting}</div>
+    </div>
+    <div class="today-stat">
+      <div class="ts-label">Fertility</div>
+      <div class="ts-value">${todayDay.fertility || '—'}</div>
+    </div>
+    <div class="today-stat">
+      <div class="ts-label">🥗 Eat More</div>
+      <div class="ts-value" style="font-size:13px;">${p.eatMore.split(',')[0]}</div>
+      <div class="ts-sub">${p.eatMore.split(',').slice(1,3).join(',')}</div>
+    </div>
+    <div class="today-stat">
+      <div class="ts-label">🏋️ Workout</div>
+      <div class="ts-value" style="font-size:13px;">${p.workout.split(',')[0]}</div>
+    </div>
+    <div class="today-stat">
+      <div class="ts-label">🍽️ Example Meal</div>
+      <div class="ts-value" style="font-size:12.5px;">${p.meals.split(',')[0]}</div>
+    </div>
+    <div class="today-stat">
+      <div class="ts-label">⚠️ Avoid</div>
+      <div class="ts-value" style="font-size:13px;">${p.avoid.split(',')[0]}</div>
+    </div>
+  `;
+}
+
+function renderCalendar() {
+  const out = document.getElementById('calendar-output');
+  let html = '';
+
+  cycles.forEach(cyc => {
+    const todayInCycle = cyc.days.some(d => d.isToday);
+    html += `<div class="cycle-block">
+      <div class="cycle-header" onclick="toggleCycle(this)">
+        <h3>
+          🌸 Cycle ${cyc.num}
+          <span class="cycle-range">${fmtDateShort(cyc.startDate)} → ${fmtDateShort(cyc.endDate)}</span>
+        </h3>
+        <span class="chevron">${todayInCycle ? '▲' : '▼'}</span>
+      </div>
+      <div class="cycle-body" style="${todayInCycle ? '' : 'display:none'}">
+        <div class="day-table-wrap">
+          <table class="day-table">
+            <thead>
+              <tr>
+                <th>Day #</th>
+                <th>Date</th>
+                <th>Phase</th>
+                <th>Hormones</th>
+                <th>⏱️ Fasting</th>
+                <th>🥗 Eat More</th>
+                <th>⚠️ Avoid</th>
+                <th>🍽️ Example Meals</th>
+                <th>🏋️ Workout</th>
+                <th>🌺 Fertility</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+    cyc.days.forEach(d => {
+      const p = d.phase;
+      html += `<tr class="${p.rowClass}${d.isToday ? ' row-today' : ''}">
+        <td class="day-num">${d.cycleDay}${d.isToday ? '<span class="today-marker">Today</span>' : ''}</td>
+        <td class="day-date">${fmtDateShort(d.date)}</td>
+        <td><span class="phase-tag ${p.tagClass}">${p.emoji} ${p.name}</span></td>
+        <td class="small-list"><span>${p.hormones}</span></td>
+        <td class="small-list"><span>${p.fasting}</span><span style="color:var(--muted);font-size:11.5px;">${p.fastingDetail}</span></td>
+        <td class="small-list">${p.eatMore.split(',').map(x=>`<span>• ${x.trim()}</span>`).join('')}</td>
+        <td class="small-list" style="color:var(--rose-dark);">${p.avoid.split(',').map(x=>`<span>✗ ${x.trim()}</span>`).join('')}</td>
+        <td class="small-list">${p.meals.split(',').map(x=>`<span>• ${x.trim()}</span>`).join('')}</td>
+        <td class="small-list"><span>${p.workout}</span><span style="color:var(--muted);font-size:11.5px;">${p.workoutIntensity}</span></td>
+        <td class="small-list">${d.fertility ? `<span style="font-size:14px;">${d.fertility}</span>` : '<span style="color:var(--muted);">—</span>'}</td>
+      </tr>`;
+    });
+
+    html += `</tbody></table></div></div></div>`;
+  });
+
+  out.innerHTML = html;
+}
+
+function toggleCycle(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  if (body.style.display === 'none') {
+    body.style.display = '';
+    chevron.textContent = '▲';
+  } else {
+    body.style.display = 'none';
+    chevron.textContent = '▼';
+  }
+}
+
+// ─── TRACKING LOG ────────────────────────────────────────────────
+function addLogEntry() {
+  const entry = {
+    date: document.getElementById('log-date').value,
+    weight: document.getElementById('log-weight').value,
+    mood: document.getElementById('log-mood').value,
+    energy: document.getElementById('log-energy').value,
+    sleep: document.getElementById('log-sleep').value,
+    hunger: document.getElementById('log-hunger').value,
+    fasted: document.getElementById('log-fasted').value,
+    workout: document.getElementById('log-workout').value,
+    notes: document.getElementById('log-notes').value
+  };
+  if (!entry.date) { alert('Please pick a date for your log entry.'); return; }
+  logEntries.push(entry);
+  renderLog();
+
+  // Clear fields
+  ['log-weight','log-mood','log-energy','log-sleep','log-hunger','log-fasted','log-notes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('log-workout').value = '';
+}
+
+function renderLog() {
+  document.getElementById('log-table-wrap').classList.remove('hidden');
+  const tbody = document.getElementById('log-body');
+  tbody.innerHTML = logEntries.map((e, i) => `
+    <tr>
+      <td>${e.date}</td>
+      <td>${e.weight || '—'}</td>
+      <td>${e.mood ? '😊 '+e.mood+'/10' : '—'}</td>
+      <td>${e.energy ? '⚡ '+e.energy+'/10' : '—'}</td>
+      <td>${e.sleep ? e.sleep+' hrs' : '—'}</td>
+      <td>${e.hunger ? e.hunger+'/10' : '—'}</td>
+      <td>${e.fasted ? e.fasted+' hrs ⏱️' : '—'}</td>
+      <td>${e.workout || '—'}</td>
+      <td style="max-width:200px;word-break:break-word;">${e.notes || '—'}</td>
+      <td><button onclick="removeLog(${i})" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;" title="Remove">✕</button></td>
+    </tr>
+  `).join('');
+}
+
+function removeLog(i) {
+  logEntries.splice(i, 1);
+  if (logEntries.length === 0) {
+    document.getElementById('log-table-wrap').classList.add('hidden');
+  } else {
+    renderLog();
+  }
+}
+
+// ─── EXPORT CSV ──────────────────────────────────────────────────
+function exportCSV() {
+  if (exportData.length === 0) { alert('Generate your tracker first!'); return; }
+  const headers = ['Date','Cycle #','Cycle Day','Phase','Hormones','Fasting Window','Eat More','Avoid','Example Meals','Workout','Fertility'];
+  const rows = exportData.map(r => [
+    r.date, r.cycleNum, r.cycleDay, r.phase, r.hormones,
+    r.fasting, r.eatMore, r.avoid, r.meals, r.workout, r.fertility
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  download('cycle-tracker.csv', csv, 'text/csv');
+}
+
+// ─── EXPORT ICS ──────────────────────────────────────────────────
+function exportICS() {
+  if (allDays.length === 0) { alert('Generate your tracker first!'); return; }
+  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//CycleTracker//EN\r\nCALSCALE:GREGORIAN\r\n';
+  allDays.forEach(d => {
+    const p = d.phase;
+    const dateStr = fmtDateISO(d.date).replace(/-/g,'');
+    const uid = `cycle${d.cycleNum}-day${d.cycleDay}@cycletracker`;
+    const summary = `${p.emoji} ${p.name} (Day ${d.cycleDay})${d.fertility ? ' ' + d.fertility : ''}`;
+    const desc = `Phase: ${p.name}\\nFasting: ${p.fasting}\\nEat more: ${p.eatMore}\\nAvoid: ${p.avoid}\\nWorkout: ${p.workout}`;
+    ics += `BEGIN:VEVENT\r\nDTSTART;VALUE=DATE:${dateStr}\r\nDTEND;VALUE=DATE:${dateStr}\r\nSUMMARY:${summary}\r\nDESCRIPTION:${desc}\r\nUID:${uid}\r\nEND:VEVENT\r\n`;
+  });
+  ics += 'END:VCALENDAR';
+  download('cycle-tracker.ics', ics, 'text/calendar');
+}
+
+function download(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────
+document.getElementById('day1').valueAsDate = new Date();
+</script>
+</body>
+</html>
