@@ -1,8 +1,8 @@
 # 🌸 Cycle & Fat-Loss Tracker
 
-**Made by Liberty Copula — for every female learning to work with her cycle, not against it.**
+**For every female learning to work with her cycle, not against it.**
 
-A free, offline-ready hormone cycle tracker that syncs your fasting, nutrition, workouts, and fat-loss strategy to exactly where you are in your cycle — automatically.
+A free, offline-ready hormone cycle tracker that syncs your fasting, nutrition, workouts, and fat-loss strategy to exactly where you are in your cycle. This calendar is based on the research of Dr. Mindy Pelz. 
 
 ---
 
@@ -38,7 +38,7 @@ See setup instructions inside the file.
 
 This tracker is for educational purposes only and is not medical advice.
 Always consult a healthcare professional before changing your diet, fasting protocol, or exercise routine.
-Inspired in part by the broader women's hormonal fasting movement.
+Inspired by the work of Dr. Mindy Pelz.
 Protocols are based on publicly available research into hormonal health and cycle syncing.
 
 ---
